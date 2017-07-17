@@ -133,6 +133,7 @@
 <button type="button" class="AboutButton">About</button>
 <h1>Text Inspector</h1>
 <h4>1. Choose a file to analyze or copy and paste the text into the box below.<br/>2. Hit the inspect button to analyze the text.<br/><br/></h4>
+
 <input type="file" id="fileInput" runat="server" class="inputFile inputFile-1" data-multiple-caption="{count} files selected" multiple="multiple" />
 <label for="fileInput">
 	<svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="20" height="17" viewBox="0 0 20 17">
@@ -140,12 +141,13 @@
 	</svg>
 	<span>Choose a file</span>
 </label>
+	
 <div class="divider2"></div>
 <button class="AboutButton">Inspect</button>
 <br/><br/>
 <textarea class="inputBox">Paste text here.</textarea>
 <div class="divider"></div>
-<textarea class="resultBox" readonly></textarea>
+<textarea id="resBox" class="resultBox" readonly></textarea>
 </body>
 </html>
 	</DOCTYPE>
