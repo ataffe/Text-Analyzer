@@ -1,6 +1,7 @@
 /**
  * Created by Alexxx on 7/12/2017.
  */
+<<<<<<< HEAD
 var Analyzer() = {
     numWords : 0;
     var mainText = "";
@@ -41,5 +42,16 @@ var Analyzer() = {
         num_words = words.length;
         return num_words;
     }
+=======
+var Analyzer = {
+    var numWords = 0;
+    var mainText = "test";
+    var words = new Array("");
+    var topWords = new Array("");
+>>>>>>> origin/master
 
+    print = function(text){
+        this.mainText = mainText + text;
+        document.getElementById("resBox").value += this.mainText;
+    }
 }
