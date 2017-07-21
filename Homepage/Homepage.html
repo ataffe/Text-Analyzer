@@ -2,7 +2,8 @@
 
 <html>
 <head>
-	
+    <meta charset="UTF-8">
+	<meta http-equiv="x-ua-compatible" content="IE=Edge">
 <title>Text Inspector</title>
 <style type="text/css">
 	body{
@@ -10,7 +11,7 @@
 		background-image: url("bookPhoto.png");
 	}
 
-	.AboutButton{
+	.buttonStyle{
 		border:none;
 		color: white;
 		padding: 10px 12px;
@@ -26,9 +27,9 @@
 		box-shadow: 0 6px #424242;
 	}
 
-	.AboutButton:hover{ background-color: #78909c }
+	.buttonStyle:hover{ background-color: #78909c }
 
-	.AboutButton:active{
+	.buttonStyle:active{
 		background-color: #78909c;
 		box-shadow: 0 5px #666;
 		transform: translateY(3px);
@@ -55,10 +56,16 @@
 	}
 
 	.divider2{
-		width: 440px;
+		width: 365px;
 		height: 10px;
 		display: inline-block;
 	}
+
+    .divider3{
+        width: 20px;
+        height: 10px;
+        display: inline-block;
+    }
 
 
 	.inputFile{
@@ -136,66 +143,71 @@
 <body>
 
 <script>
-    var Analyzer = {
-        numWords: 0;
+
+    var numWords = 0;
     var mainText = "This is a test";
     var words = new Array("none");
     var topWords = new Array("none");
+    var readWords = false;
+    var numCharacters;
 
     readText = function (text) {
-        this.mainText = text;
+        mainText = text;
     };
 
     getWords = function () {
         return words;
     }
 
-    getMainText = function () {
-		document.getElementByID("resBox").value +=mainText;
+    clearText = function(){
+        document.getElementById("resBox").value = "";
     }
 
+
     toString = function () {
-        var returnString = "Text statistics\n\n"
+        var returnString = "Text Statistics\n\n"
             + "----------------------------------------------"
-            + "----------------------------------------------\n\n"
-            + "Number of Words: " + numWords + "\n";
-        document.getElementById("")
+            + "--------------------------------------------------\n\n"
+            + "Number of Words: " + numWords + "\n"
+            + "Nubmer of Characters: " + numCharacters;
+        return returnString;
     }
 
     countWords = function () {
-        var num_words = 0;
-        var regex = /\n|\s{2,}/g;
-        var words = mainText.split(regex);
-        var list = [];
+        readText(document.getElementById("inBox").value);
+        numWords = 0;
+        var tmpWords = mainText.match(/\S+/g);
+        numCharacters = mainText.split("").length;
+        var letters;
+        for(var i = 0; i < tmpWords.length; i++){
+            letters = tmpWords[i].split("");
 
-        for(var i = 0; i < words.length; i++){
-            var letters = words[i].split("");
-
-            if(letters.length != 0){
-                list.push(words[i]);
+            if(letters.length !== 0){
+                numWords++;
+                words.push(tmpWords[i])
             }
         }
 
-        words = letters.join();
-        num_words = words.length;
-        return num_words;
+        if(words.length > 0){
+            readWords = true;
+        }
+
+
     	}
+
+    inspect = function () {
+        countWords()
+        if(readWords){
+            document.getElementById("resBox").value = toString();
+        }
     }
 
-    Analyzer.mainText = document.getElementById("inBox").value;
 
 
 </script>
 
-<script>
-    function test() {
-        var mainText = "Alex";
-        document.getElementById("resBox").value += mainText ;
-    }
-</script>
 
-
-<button type="button" class="AboutButton">About</button>
+<button type="button" class="buttonStyle">About</button>
 <h1>Text Inspector</h1>
 <h4>1. Choose a file to analyze or copy and paste the text into the box below.<br/>2. Hit the inspect button to analyze the text.<br/><br/></h4>
 
@@ -206,11 +218,14 @@
 	</svg>
 	<span>Choose a file</span>
 </label>
-	
-<div class="divider2"></div>
 
-<button class="AboutButton" id="inspectButton" onclick="Analyzer.getMainText()" >Inspect</button>
+<div class="divider2"></div>
+<button class="buttonStyle" id="clearButton" onclick="clearText()">Clear</button>
+<div class="divider3"></div>
+
+<button class="buttonStyle" id="inspectButton" onclick="inspect()" >Inspect</button>
 <br/><br/>
+
 <textarea id="inBox" class="inputBox">Paste text here.</textarea>
 <div class="divider"></div>
 
