@@ -58,7 +58,7 @@
 		transform: translateY(3px);
 	}
 
-	.buttonDivder{
+	.buttonDivider{
 		text-align: center;
 	}
 
@@ -144,12 +144,11 @@
 </head>
 	
 <body>
-
-<button type="button">About</button>
+<button type="button" onclick="goToAbout()">About</button>
 <h1>Text Inspector</h1>
 <h3>1. Choose a file to analyze or copy and paste the text into the box below.<br/>2. Hit the inspect button to analyze the text.<br/><br/></h3>
 
-<div class="buttonDivder">
+<div class="buttonDivider">
 	<button type="button" id="clearButton" onclick="clearText()">Clear</button>
 	<div class="divider3"></div>
 	<button type="button" id="inspectButton" onclick="inspect()" >Inspect</button>
@@ -166,12 +165,11 @@
 
 <br/><br/>
 
-<div class="buttonDivder">
+<div class="buttonDivider">
 <textarea id="inBox" class="inputBox">Paste text here.</textarea>
 <div class="divider"></div>
 <textarea id="resBox" class="resultBox" readonly></textarea>
 </div>
-
 
 <script>
 
@@ -248,7 +246,6 @@
         while (i < f1) {
             inputFiles = files[i];
             output.value += inputFiles.name;
-            inputFiles.
             i++;
         }
     }
@@ -262,6 +259,10 @@
     }
 
     document.querySelector("#fileInput").onchange=readFile;
+
+    goToAbout = function () {
+		window.location.href = "About.html";
+    }
 
 </script>
 
