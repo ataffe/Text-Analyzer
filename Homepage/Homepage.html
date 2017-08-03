@@ -210,7 +210,7 @@
 </style>
 
 </head>
-	
+	<!-- table from https://codepen.io/anon/pen/dzXeRJ -->
 <body>
 
 <button class="buttons" onclick="goToAbout()">About</button>
@@ -360,25 +360,54 @@
 
 <script>
     //create a node class to hold each letter
-    function Node(data) {
-        this.data = data;
-        this.isWord = false;
-        this.prefixes = 0;
-        this.children = {};
+    function Node() {
+		this.isEmpty = true;
+		this.children = {};
+
+		for(var i = 0; i < 26; i++){
+		    this.children[i] = 0;
+		}
     }
 
     //create the trie
-    function Trie() {
-        this.root = new Node('');
-    }
+    var Trie = {
+        root: new Node(),
+		contains: function (str) {
+			if(str === ""){
+			    return this.root.isEmpty;
+			}
 
-    Trie.prototype.add = function (word) {
-        if(!this.root){
-            return null;
+			var ascii = str.charCodeAt(0);
+			if(ascii < 97 || ascii > 122){
+			    return false;
+			}
+
+			if(this.children[ascii - "a".charCodeAt(0)] ===0){
+			    return false;
+			}else if(this.children[ascii - "a".charCodeAt(0) === 1]){
+			    return this.contains(str.substring(1,str.length));
+			}
+        }, //end of contains method
+
+		add: function (str) {
+			if(str === ""){
+			    this.root.isEmpty = true;
+			    return;
+			}
+            var ascii = str.charCodeAt(0);
+			if(ascii < 97 || ascii > 122){
+			    console.log("trying to added invalid character" + str.charAt(0));
+			    return;
+			}else{
+
+			}
+
+
         }
 
+    };
 
-    }
+    
 </script>
 
 
