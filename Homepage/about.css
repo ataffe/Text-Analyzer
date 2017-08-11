@@ -1,0 +1,49 @@
+body{
+    background-image: url("bookClassic.png");
+    color:white;
+    font-family: Georgia, serif;
+}
+p{
+    color: white;
+    font-family: Georgia, serif;
+    overflow: hidden;
+    text-align: justify;
+    width: 1500px;
+}
+div{
+    text-align: center;
+    background-color: #26323880;
+    border: none;
+    overflow: hidden;
+}
+
+.div1{
+    text-align: left;
+}
+h1{
+    color:white;
+    text-decoration: underline;
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+button{
+    border:none;
+    color: white;
+    padding: 12px 14px;
+    font-size:12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    background-color: #607d8b;
+    border-radius: 7px;
+    position: relative;
+}
+button:hover{  background-color: #78909c }
+button:active{
+    background-color: #78909c;
+    box-shadow: 0 5px #666;
+    transform: translateY(3px);
+}

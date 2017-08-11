@@ -3,65 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>About</title>
-
-    <style>
-        body{
-            background-image: url("bookClassic.png");
-            color:white;
-            font-family: Georgia;
-        }
-        p{
-            color: white;
-            font-family: Georgia;
-            overflow: hidden;
-            text-align: justify;
-            width: 1500px;
-        }
-        div{
-            text-align: center;
-            background-color: #26323880;
-            border: none;
-            overflow: hidden;
-        }
-
-        .div1{
-            text-align: left;
-        }
-        h1{
-            color:white;
-            text-decoration: underline;
-            text-align: center;
-        }
-        h3{
-            text-align: center;
-        }
-        button{
-            border:none;
-            color: white;
-            padding: 12px 14px;
-            font-size:12px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            background-color: #607d8b;
-            border-radius: 7px;
-            position: relative;
-        }
-        button:hover{  background-color: #78909c }
-        button:active{
-            background-color: #78909c;
-            box-shadow: 0 5px #666;
-            transform: translateY(3px);
-        }
-    </style>
+    <script src="about.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="about.css">
 </head>
 
-<script>
-    goHome = function () {
-        window.location.href = "Homepage.html"
-    }
-</script>
 <button onclick="goHome()">Home</button>
 <br/><br/>
 <div>
@@ -70,7 +15,8 @@
 
     <div class="div1">
         <p>Hi name is Alexander Taffe. I am a computer systems engineering student Arizona State University. I made this web page based on a project from my Distributed Software Development
-            my class in Spring 2017. We learned using the .NET framework but I wanted to learn HTML, CSS, and Javascript. So I made this website.<br/><br/> Currently the website provides the following information:</p>
+            my class in Spring 2017. We learned using the .NET framework but I wanted to learn HTML, CSS, and Javascript. So I made this website to learn and practice these skills.It is still a work in progress but I will be working on it in the weeks to come.
+            The code is available on my <a href="https://github.com/ataffe/Text-Analyzer">github</a>.<br/><br/> Currently the website provides the following information:</p>
         <ol>
             <li>Number of words</li>
             <li>Number of characters</li>
