@@ -253,59 +253,19 @@
             <td id="numChar">---</td>
         </tr>
         <tr>
-            <td><h3>Longest Word</h3></td>
+            <td><h3>Longest Word(s)</h3></td>
             <td id="longWords">---</td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<img src="bookPhoto.png"/>
+
 
 
 <script>
 
-    var numWords = 0;
-    var words = new Array("none");
-    var topWords = new Array("none");
-    var readWords = false;
-    var numCharacters = 0;
-    var longestWord = "\0";
     var inputFiles;
-
-
-    /*
-        getWords = function () {
-            return words;
-        };
-
-        countWords = function () {
-            readText(document.getElementById("inBox").value);
-            numWords = 0;
-            var tmpWords = mainText.match(/\S+/g);
-            numCharacters = mainText.split("").length;
-            var letters;
-            var lengthCount = 0;
-            for(var i = 0; i < tmpWords.length; i++){
-                letters = tmpWords[i].split("");
-
-                if(letters.length !== 0){
-                    numWords++;
-                    words.push(tmpWords[i]);
-
-                    if(letters.length > lengthCount){
-                        lengthCount = letters.length;
-                        longestWord = tmpWords[i];
-                    }
-                }
-            }
-
-            if(words.length > 0){
-                readWords = true;
-            }
-
-        };
-    */
     var readFile = function () {
         var fileInput = document.querySelector("#fileInput");
         var files = fileInput.files;
@@ -331,9 +291,10 @@
 
 <script>
     var numWords = 0;
-    var mainText = "\0";
+    var mainText = "";
     var numCharacters = 0;
     var wordsRead = false;
+    var longestWordString = "";
 
     readText = function (text) {
         mainText = text;
@@ -349,7 +310,6 @@
             this.children[i] = null;
         }
     }
-
 
 
     function addWord(vertex, word){
@@ -384,7 +344,7 @@
                 index = index - 97;
             }
 
-            if(vertex === null || vertex.children[i] === null){
+            if(vertex === undefined || vertex === null || vertex.children[i] === null){
                 return false;
             }
 
@@ -411,13 +371,32 @@
     function readWords() {
         readText(document.getElementById("inBox").value);
 
+        var longestWords = [];
+        numWords = 0;
+        numCharacters = 0;
+        longestWordString = "";
+
         var tmpWords = mainText.match(/\S+/g);
         numCharacters = mainText.split("").length;
 
-        console.log("num chars: " + numCharacters);
 
         for(var i = 0; i < tmpWords.length; i++){
             var word = cleanWord(tmpWords[i]);
+
+            //Find the longest word
+			if(i === 0){
+			    longestWords[0] = word;
+			}else{
+			    if(word.length > longestWords[0].length){
+			        longestWords = [];
+			        longestWords.push(word);
+				}else if(word.length === longestWords[0].length){
+			        longestWords.push(word);
+				}
+			}
+
+
+            //add word to trie
             if(search(this.root,word)){
                 numWords++;
             }else{
@@ -429,15 +408,19 @@
         if(numWords > 0){
             wordsRead = true;
         }
+
+        for(var i = 0; i < longestWords.length; i++){
+            longestWordString += longestWords[i] + "<br/>";
+		}
+        console.log(longestWordString);
     }
 
     inspect = function () {
         readWords();
-        console.log("num words: " + numWords);
         if(wordsRead){
             document.getElementById("resTable").rows[0].cells[1].innerHTML = numWords;
             document.getElementById("resTable").rows[1].cells[1].innerHTML = numCharacters;
-            //document.getElementById("resTable").rows[2].cells[1].innerHTML = longestWord;
+            document.getElementById("resTable").rows[2].cells[1].innerHTML = longestWordString;
         }
     };
 
