@@ -1,4 +1,6 @@
+/*
 var inputFiles;
+
 var readFile = function () {
     var fileInput = document.querySelector("#fileInput");
     var files = fileInput.files;
@@ -12,7 +14,7 @@ var readFile = function () {
         i++;
     }
 };
-
+*/
 
 
 goToAbout = function () {
@@ -25,6 +27,8 @@ var mainText = "";
 var numCharacters = 0;
 var wordsRead = false;
 var longestWordString = "";
+var trieMade = false;
+var savedText = "";
 
 readText = function (text) {
     mainText = text;
@@ -40,6 +44,14 @@ function Node() {
     }
 }
 
+function clearNode(node) {
+    node.isLeaf = false;
+    node.frequency = 0;
+    for(var i = 0; i < 26; i++){
+        node.children[i] = null;
+    }
+}
+
 
 function addWord(vertex, word){
 
@@ -50,12 +62,17 @@ function addWord(vertex, word){
             console.log("got a bad character");
             return -1;
         }else{
-            index = index - 97;
+            if(index >= 65 && index <= 90){
+                index = index - 65;
+            }else{
+                index = index - 97;
+            }
         }
 
-        if(vertex.children[index] === null || vertex.children[index] === undefined){
+
+        if(vertex.children[index] === null){
             vertex.children[index] = new Node();
-            console.log("added letter " + word.charAt(i) + " to trie");
+            vertex = vertex.children[index];
         }
     }
     vertex.isLeaf = true;
@@ -72,34 +89,31 @@ function addWord(vertex, word){
  */
 function search(vertex, word, add) {
 
-    for(var i = 0; i < word.length; i++){
+    for(var i = 0; i < word.length; i++) {
         var index = word.charCodeAt(i);
-        console.log("searching letter " + word.charAt(i));
         if(index < 65 || index > 122 || (index > 90 && index < 97)){
             return -1;
         }else{
-            index = index - 97;
+            if(index >= 65 && index <= 90){
+                index = index - 65;
+            }else{
+                index = index - 97;
+            }
         }
 
         if(vertex === undefined || vertex === null || vertex.children[index] === undefined || vertex.children[index] === null){
-            if(vertex.children[index] === null) {
-                console.log("could not find letter: " + word.charAt(i));
-            }else if(vertex === undefined){
-                console.log(" could not find " + word.charAt(i) +  " vertex undefined");
-            }else{
-                console.log("vertex is null");
-            }
             return false;
         }
 
         vertex = vertex.children[index];
     }
 
-    console.log("finished searching for word");
-
     if(vertex !== undefined && vertex !== null && vertex.isLeaf){
         if(add === true) {
             vertex.frequency++;
+            console.log(word + " frequency: " + vertex.frequency);
+        }else{
+            console.log("found " + word + " with frequency: " + vertex.frequency + " but did not increment frequency");
         }
         return true;
     }else{
@@ -135,6 +149,13 @@ root = new Node();
 function readWords() {
     readText(document.getElementById("inBox").value);
 
+    if(mainText !== savedText){
+        trieMade = false;
+        clearNode(root);
+        console.log("saved text is different from main text");
+    }
+
+
     var longestWords = [];
     numWords = 0;
     numCharacters = 0;
@@ -159,22 +180,30 @@ function readWords() {
                 }
             }
 
-            //add word to trie
-            if (search(this.root, word, false)) {
-                numWords++;
-                console.log("found word" + word);
-            } else {
-                if (addWord(this.root, word) === 0) {
-                    numWords++;
+                var found = false;
+                if(!trieMade){
+                    found = search(this.root, word, true);
+                }else {
+                    found = search(this.root, word, false);
                 }
-            }
+
+                //add word to trie
+                if (found) {
+                    numWords++;
+                } else {
+                    if (addWord(this.root, word) === 0) {
+                        numWords++;
+                    }
+                }
         }
         if (numWords > 0) {
             wordsRead = true;
+            trieMade = true;
+            savedText = mainText;
         }
 
-        for (var i = 0; i < longestWords.length; i++) {
-            longestWordString += longestWords[i] + "<br/>";
+        for (var j = 0; j < longestWords.length; j++) {
+            longestWordString += longestWords[j] + "<br/>";
         }
     }
 }
