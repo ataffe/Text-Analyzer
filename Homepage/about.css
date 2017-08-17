@@ -12,7 +12,8 @@ p{
 }
 div{
     text-align: center;
-    background-color: #26323880;
+    /*background-color: #263238;*/
+    background-color: rgba(38,50,56,.7);
     border: none;
     overflow: hidden;
 }
@@ -37,7 +38,7 @@ button{
     text-align: center;
     text-decoration: none;
     outline: none;
-    background-color: #607d8b;
+    background-color: #00695c;
     border-radius: 7px;
     position: relative;
 }
