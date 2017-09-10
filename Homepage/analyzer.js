@@ -16,7 +16,9 @@ var readFile = function () {
 };
 */
 
-
+/**
+ * This function jumps to the about page.
+ */
 goToAbout = function () {
         window.location.href = "About.html";
     };
@@ -29,12 +31,42 @@ var wordsRead = false;
 var longestWordString = "";
 var trieMade = false;
 var savedText = "";
+var definition = "";
 
+/**
+ * this function reads the text from input box and stores it
+ * @param text
+ */
 readText = function (text) {
     mainText = text;
 };
 
-//create a node class to hold each letter
+/**
+ * This function makes a RESTful call to the pearson dictionary and get the definition of the input word
+ *
+ */
+function getDefinition(word){
+    var xhttp = new XMLHttpRequest();
+    var url = "http://api.pearson.com/v2/dictionaries/lasde/entries?headword=" + word.toLowerCase();
+    console.log(url);
+    xhttp.onreadystatechange=function(){
+        if(xhttp.readyState == 4 && xhttp.status == 200){
+            var definitionRaw = JSON.parse(xhttp.responseText);
+            var part_of_speech = definitionRaw.results[0].part_of_speech;
+            definition = definitionRaw.results[0].senses[0].definition[0];
+            longestWordString += word.charAt(0).toUpperCase() + word.slice(1) + " (" + part_of_speech + ") - " + definition + "<br/><br/>";
+            document.getElementById("resTable").rows[2].cells[1].innerHTML = longestWordString;
+
+        }
+    };
+    xhttp.open("GET",url, true);
+    xhttp.send();
+}
+
+/**
+ * The node class that is used to make the trie
+ * @constructor
+ */
 function Node() {
     this.isLeaf = false;
     this.children = new Array(26);
@@ -44,6 +76,10 @@ function Node() {
     }
 }
 
+/**
+ * clears the data in a node
+ * @param node the node whose data will be cleared.
+ */
 function clearNode(node) {
     node.isLeaf = false;
     node.frequency = 0;
@@ -52,7 +88,12 @@ function clearNode(node) {
     }
 }
 
-
+/**
+ * This function adds a word to the trie.
+ * @param vertex the root of the trie.
+ * @param word the word that will be added
+ * @returns {number} returns 0 if the function was successful, and -1 if not successfully added.
+ */
 function addWord(vertex, word){
 
     for(var i = 0 ; i < word.length; i++){
@@ -111,10 +152,8 @@ function search(vertex, word, add) {
     if(vertex !== undefined && vertex !== null && vertex.isLeaf){
         if(add === true) {
             vertex.frequency++;
-            console.log(word + " frequency: " + vertex.frequency);
-        }else{
-            console.log("found " + word + " with frequency: " + vertex.frequency + " but did not increment frequency");
         }
+
         return true;
     }else{
         return false;
@@ -144,7 +183,8 @@ function cleanWord (word) {
 root = new Node();
 
 /**
- * Function that reads the words in from the input text box.
+ * Function that reads the words in from the input text box. I need to break this up into more function it's getting a bit
+ * huge.
  */
 function readWords() {
     readText(document.getElementById("inBox").value);
@@ -152,7 +192,7 @@ function readWords() {
     if(mainText !== savedText){
         trieMade = false;
         clearNode(root);
-        console.log("saved text is different from main text");
+        //console.log("saved text is different from main text");
     }
 
 
@@ -202,9 +242,11 @@ function readWords() {
             savedText = mainText;
         }
 
+        //This get all the longest words if there are multiple words
         for (var j = 0; j < longestWords.length; j++) {
-            longestWordString += longestWords[j] + "<br/>";
+            getDefinition(longestWords[j]);
         }
+
     }
 }
 
