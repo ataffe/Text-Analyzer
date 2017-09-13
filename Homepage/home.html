@@ -49,15 +49,19 @@
         <tbody>
         <tr>
             <td id=""><h3>Number of Words</h3></td>
-            <td id="numWords">---</td>
+            <td id="numWords" align="center">---</td>
         </tr>
         <tr>
             <td><h3>Number of Characters</h3></td>
-            <td id="numChar">---</td>
+            <td id="numChar" align="center">---</td>
         </tr>
         <tr>
             <td><h3>Longest Word(s)</h3></td>
-            <td id="longWords">---</td>
+            <td id="longWords" align="center">---</td>
+        </tr>
+        <tr>
+            <td><h3>Ten Most Used Words</h3></td>
+            <td id="mostUsedWord" align="center">---</td>
         </tr>
         </tbody>
     </table>
@@ -69,6 +73,7 @@
         if (wordsRead) {
             document.getElementById("resTable").rows[0].cells[1].innerHTML = numWords;
             document.getElementById("resTable").rows[1].cells[1].innerHTML = numCharacters;
+            document.getElementById("resTable").rows[3].cells[1].innerHTML = mostUsedWords; // using row 3 here because row 2 is used by longest word in the getDefinition function.
         }
     };
 
@@ -77,6 +82,7 @@
         document.getElementById("resTable").rows[1].cells[1].innerHTML = "---";
         document.getElementById("resTable").rows[2].cells[1].innerHTML = "---";
         document.getElementById("inBox").innerHTML = "Paste text here";
+        document.getElementById("resTable").rows[3].cells[1].innerHTML = "---";
     };
 
     //document.querySelector("#fileInput").onchange = readFile;
