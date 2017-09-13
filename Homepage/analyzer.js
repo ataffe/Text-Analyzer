@@ -196,6 +196,22 @@ function GetWord (){
     return retString;
 }
 
+function insertionSort(array){
+    for(var i = 0; i < array.length; i++){
+        var index = array[i][1];
+        var word = array[i][0];
+        var j = i;
+        while(j > 0 && array[j-1][1] < index){
+            array[j][1] = array[j -1][1];
+            array[j][0] = array[j -1][0];
+            j--;
+        }
+        array[j][1] = index;
+        array[j][0] = word;
+    }
+    return array;
+}
+
 function InsertWord(word, frequency) {
     var wordFreq = [word, frequency];
     if(frequency > topWords[0] || topWords.length < 10){
@@ -211,7 +227,7 @@ function InsertWord(word, frequency) {
             }
         }
 
-        topWords.sort(function (a, b){return a - b;});
+        topWords = insertionSort(topWords);
     }
 }
 
