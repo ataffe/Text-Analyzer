@@ -214,11 +214,11 @@ function insertionSort(array){
 
 function InsertWord(word, frequency) {
     var wordFreq = [word, frequency];
-    if(frequency > topWords[0] || topWords.length < 10){
-        var inserted = false;
+
         if(topWords.length < 10) {
             topWords.push(wordFreq);
-        }else {
+        }else if(frequency > topWords[0][1]) {
+            var inserted = false;
             for (var i = 1; i < 10 && !inserted; i++) {
                 if (frequency < topWords[i]) {
                     topWords[i] = wordFreq;
@@ -228,7 +228,6 @@ function InsertWord(word, frequency) {
         }
 
         topWords = insertionSort(topWords);
-    }
 }
 
 function getWordFrequency(root) {
@@ -236,7 +235,9 @@ function getWordFrequency(root) {
         if(root.children[i] !== null){
             if(root.children[i].isLeaf){
                 letterQ.push(String.fromCharCode(97 + i));
+                console.log("Q:" + letterQ.toString() + " with frequency: " + root.children[i].frequency);
                 var word = GetWord();
+                console.log("get word returned: " + word);
                 InsertWord(word,root.children[i].frequency);
             }else{
                 letterQ.push(String.fromCharCode(97 + i));
@@ -275,7 +276,6 @@ function readWords() {
     if(mainText !== savedText){
         trieMade = false;
         clearNode(root);
-        //console.log("saved text is different from main text");
     }
 
 
@@ -322,21 +322,21 @@ function readWords() {
 
         //get longest word definition for RESTful api call
         if(!trieMade) {
-            console.log("longest words size: " + longestWords.length);
             //This get all the longest words if there are multiple words
             for (var j = 0; j < longestWords.length; j++) {
                 getDefinition(longestWords[j]);
-                console.log("longest word: " + longestWords);
             }
         }
 
         //get word frequency from trie
         if(!trieMade) {
             topWords = [];
+            mostUsedWords = "";
             getWordFrequency(this.root);
             for (var k = 0; k < topWords.length; k++) {
                 mostUsedWords += topWords[k][0] + ": " + topWords[k][1] + "<br/>";
             }
+            console.log(topWords.toString());
         }
 
         if (numWords > 0) {
