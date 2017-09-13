@@ -211,23 +211,46 @@ function insertionSort(array){
     }
     return array;
 }
+function shift(array) {
+
+    var int = array[9][1];
+    var word = array[9][0];
+
+    for(var i = 8; i >= 0 ; i--){
+        array[i+1][0] = array[i][0];
+        array[i+1][1] = array[i][1];
+        console.log(array.toString());
+    }
+    array[0][0] = word;
+    array[0][1] = int;
+
+    return array;
+}
 
 function InsertWord(word, frequency) {
     var wordFreq = [word, frequency];
-
+        console.log("attempting to insert: " + word + " : " + frequency);
         if(topWords.length < 10) {
             topWords.push(wordFreq);
-        }else if(frequency > topWords[0][1]) {
+            topWords = insertionSort(topWords);
+        }else if(frequency > topWords[9][1]) {
             var inserted = false;
-            for (var i = 1; i < 10 && !inserted; i++) {
-                if (frequency < topWords[i]) {
-                    topWords[i] = wordFreq;
+            for (var i = 9; i > 0 && !inserted; i--) {
+                if (frequency < topWords[i-1][1]) {
+                    topWords[i][0] = word;
+                    topWords[i][1] = frequency;
+                    inserted = true;
+                }else if(i === 1 && frequency > topWords[i-1][1]){
+                    topWords = shift(topWords);
+                    topWords[0][0] = word;
+                    topWords[0][1] = frequency;
                     inserted = true;
                 }
             }
         }
+    console.log("new list: " +  topWords.toString());
 
-        topWords = insertionSort(topWords);
+
 }
 
 function getWordFrequency(root) {
@@ -235,9 +258,7 @@ function getWordFrequency(root) {
         if(root.children[i] !== null){
             if(root.children[i].isLeaf){
                 letterQ.push(String.fromCharCode(97 + i));
-                console.log("Q:" + letterQ.toString() + " with frequency: " + root.children[i].frequency);
                 var word = GetWord();
-                console.log("get word returned: " + word);
                 InsertWord(word,root.children[i].frequency);
             }else{
                 letterQ.push(String.fromCharCode(97 + i));
